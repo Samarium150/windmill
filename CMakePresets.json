@@ -1,0 +1,168 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "core",
+      "description": "core preset",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build-${presetName}",
+      "installDir": "${sourceDir}/cmake-install-${presetName}"
+    },
+    {
+      "name": "debug",
+      "description": "debug preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "description": "release preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "windows-msvc",
+      "description": "windows msvc preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchain": "Visual Studio"
+        },
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ],
+          "intelliSenseMode": "windows-msvc-x64"
+        }
+      }
+    },
+    {
+      "name": "windows-clang",
+      "description": "windows clang preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang.exe",
+        "CMAKE_CXX_COMPILER": "clang++.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "vendor": {
+        "jetbrains.com/clion": {
+          "toolchain": "Visual Studio LLVM"
+        }
+      }
+    },
+    {
+      "name": "linux-clang",
+      "description": "linux clang preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+        }
+      }
+    },
+    {
+      "name": "linux-gcc",
+      "description": "linux gcc preset",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+        }
+      }
+    },
+    {
+      "name": "windows-clang-debug",
+      "displayName": "Windows clang Debug",
+      "description": "Windows clang debug preset",
+      "inherits": [
+        "core",
+        "debug",
+        "windows-clang"
+      ]
+    },
+    {
+      "name": "windows-clang-release",
+      "displayName": "Windows clang Release",
+      "description": "Windows clang release preset",
+      "inherits": [
+        "core",
+        "release",
+        "windows-clang"
+      ]
+    },
+    {
+      "name": "linux-clang-debug",
+      "displayName": "Linux clang Debug",
+      "description": "Linux clang debug preset",
+      "inherits": [
+        "core",
+        "debug",
+        "linux-clang"
+      ]
+    },
+    {
+      "name": "linux-clang-release",
+      "displayName": "Linux clang Release",
+      "description": "Linux clang release preset",
+      "inherits": [
+        "core",
+        "release",
+        "linux-clang"
+      ]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux-clang-release",
+      "displayName": "Linux clang Release",
+      "configurePreset": "linux-clang-release"
+    },
+    {
+      "name": "windows-clang-release",
+      "displayName": "Windows clang Release",
+      "configurePreset": "windows-clang-release"
+    }
+  ]
+}

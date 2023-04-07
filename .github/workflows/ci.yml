@@ -1,0 +1,42 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            host: linux
+          - os: windows-latest
+            host: windows
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Get latest CMake and Ninja
+        uses: lukka/get-cmake@latest
+      - name: Cache LLVM and Clang
+        id: cache-llvm
+        uses: actions/cache@v3
+        with:
+          key: llvm-15
+          path: |
+            C:/Program Files/LLVM
+            ./llvm
+      - name: Get Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: '15'
+          cached: ${{ steps.cache-llvm.outputs.cache-hit }}
+      - name: Compile
+        run: |
+          cmake --preset ${{ matrix.host }}-clang-release
+          cmake --build --preset ${{ matrix.host }}-clang-release
